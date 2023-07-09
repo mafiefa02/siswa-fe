@@ -20,12 +20,14 @@ import { getBaseUrl } from "@/lib/getBaseUrl";
 import { prisma } from "@/prisma";
 import { Pelanggaran, Siswa } from "@prisma/client";
 
-export async function generateStaticParams() {
+{
+  /*export async function generateStaticParams() {
   const students: Siswa[] = await prisma.siswa.findMany();
 
   return students.map((student) => ({
     siswaId: student.id,
   }));
+}*/
 }
 
 export default async function SiswaDetails({
