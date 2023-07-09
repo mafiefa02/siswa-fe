@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function RootLoading() {
   return (
-    <Container className="flex flex-row justify-between h-screen w-full items-center">
+    <Container className="flex flex-row justify-center h-screen w-full items-center">
       <H1>Loading...</H1>
     </Container>
   );
