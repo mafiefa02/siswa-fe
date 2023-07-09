@@ -2,9 +2,7 @@ import "./globals.css";
 
 import { Public_Sans } from "next/font/google";
 
-import Container from "@/components/layout/container";
 import Navbar from "@/components/layout/navbar";
-import ThemeSwitch from "@/components/theme-switch";
 import { Toaster } from "@/components/ui/toast/toaster";
 import { ThemeProvider } from "@/context/theme-provider";
 
@@ -28,7 +26,9 @@ export default function RootLayout({
       <body className={font.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />
-          {children}
+          <main className="w-full flex flex-row h-screen overflow-hidden">
+            {children}
+          </main>
           <Toaster />
         </ThemeProvider>
       </body>
