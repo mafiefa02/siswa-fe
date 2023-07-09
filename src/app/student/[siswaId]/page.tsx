@@ -16,10 +16,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 import { Pelanggaran, Siswa } from "@prisma/client";
 
 export async function generateStaticParams() {
-  const students: Siswa[] = await fetch(`http://localhost:3000/api/siswa`).then(
+  const students: Siswa[] = await fetch(`${getBaseUrl()}/api/siswa`).then(
     (res) => res.json()
   );
 
@@ -34,7 +35,7 @@ export default async function SiswaDetails({
   params: { siswaId: string };
 }) {
   const siswa: Siswa = await fetch(
-    `http://localhost:3000/api/siswa/${params.siswaId}`,
+    `${getBaseUrl()}/api/siswa/${params.siswaId}`,
     {
       method: "GET",
       cache: "no-cache",
@@ -42,7 +43,7 @@ export default async function SiswaDetails({
   ).then((res) => res.json());
 
   const pelanggaran: Pelanggaran[] = await fetch(
-    `http://localhost:3000/api/pelanggaran/${params.siswaId}`,
+    `${getBaseUrl()}/api/pelanggaran/${params.siswaId}`,
     {
       method: "GET",
       cache: "no-cache",
