@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import hero from "@/../public/hero.png";
 import Container from "@/components/layout/container";
 import { H1, H3 } from "@/components/typography";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 import { Siswa } from "@prisma/client";
 
 import Search from "./(components)/search";
 
 async function getSiswa(): Promise<Siswa[]> {
-  const res = await fetch("http://localhost:3000/api/siswa", {
+  const res = await fetch(`${getBaseUrl()}/api/siswa`, {
     method: "GET",
     next: { revalidate: 60 * 60 }, // 1 hour
   });
@@ -22,7 +23,7 @@ async function getAnalytics(): Promise<{
   pelanggaranCount: number;
   pelanggaranToday: number;
 }> {
-  const res = await fetch("http://localhost:3000/api/analytics", {
+  const res = await fetch(`${getBaseUrl()}/api/analytics`, {
     method: "GET",
     next: {
       revalidate: 60 * 15, // 10 minutes

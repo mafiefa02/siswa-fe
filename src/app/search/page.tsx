@@ -1,20 +1,19 @@
+import { getBaseUrl } from "@/lib/getBaseUrl";
+
 import SearchBar from "./(components)/search-bar";
 
 import type { Pelanggaran, Siswa } from "@prisma/client";
 async function getSiswa(): Promise<Siswa[]> {
-  return await fetch(`http://localhost:3000/api/siswa`, {
+  return await fetch(`${getBaseUrl()}/api/siswa`, {
     cache: "no-cache",
   }).then((res) => res.json());
 }
 
 async function getPelanggaranSiswa() {
-  const res: Pelanggaran[] = await fetch(
-    `http://localhost:3000/api/pelanggaran/`,
-    {
-      method: "GET",
-      cache: "no-cache",
-    }
-  ).then((res) => res.json());
+  const res: Pelanggaran[] = await fetch(`${getBaseUrl()}/api/pelanggaran/`, {
+    method: "GET",
+    cache: "no-cache",
+  }).then((res) => res.json());
 
   return res;
 }

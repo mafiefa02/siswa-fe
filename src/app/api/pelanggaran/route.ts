@@ -9,8 +9,6 @@ export async function GET() {
     },
   });
 
-  console.log("pelanggaran", pelanggaran);
-
   return NextResponse.json(pelanggaran, { status: 200 });
 }
 
