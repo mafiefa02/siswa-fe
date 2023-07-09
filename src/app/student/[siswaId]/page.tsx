@@ -17,12 +17,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getBaseUrl } from "@/lib/getBaseUrl";
+import { prisma } from "@/prisma";
 import { Pelanggaran, Siswa } from "@prisma/client";
 
 export async function generateStaticParams() {
-  const students: Siswa[] = await fetch(`${getBaseUrl()}/api/siswa`).then(
-    (res) => res.json()
-  );
+  const students: Siswa[] = await prisma.siswa.findMany();
 
   return students.map((student) => ({
     siswaId: student.id,
