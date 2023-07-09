@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Pelanggaran {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  reason    String?  @db.Text
+  siswa     Siswa?   @relation(fields: [siswaId], references: [id])
+  siswaId   String?
+  points    Int
+}
+
+model Siswa {
+  id        String        @id @default(cuid())
+  name      String
+  nisn      String
+  avatar    String?
+  createdAt DateTime      @default(now())
+  penalty   Pelanggaran[]
+  points    Int
+  alamat    String?
+}
