@@ -1,8 +1,7 @@
 {
-  "name": "is-himafi23",
+  "name": "santrib",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://santrib.mbss.sch.id",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
