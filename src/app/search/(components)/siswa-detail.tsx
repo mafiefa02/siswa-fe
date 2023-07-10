@@ -2,12 +2,10 @@ import { ChevronLeft, PlusIcon } from "lucide-react";
 import moment from "moment";
 import React from "react";
 
-import { DataTable } from "@/components/data-table";
 import Container from "@/components/layout/container";
-import { H1, H3, P } from "@/components/typography";
+import { H3, P } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
@@ -51,18 +49,21 @@ export default function SiswaDetail({
           <AvatarFallback>{siswa.name.split(" ")[0][0]}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-px">
-          <H3 className="text-primary -mb-2">{siswa.name}</H3>
+          <H3 className="text-primary">{siswa.name}</H3>
           <p className="text-foreground/50 text-sm">NISN {siswa.nisn}</p>
+          <p className="text-foreground/50 text-sm md:hidden">
+            Total poin: <span className="text-primary">{siswa.points}</span>
+          </p>
         </div>
-        <div className="flex flex-col gap-px ml-auto">
+        <div className="hidden md:flex flex-col gap-px ml-auto">
           <p className="text-foreground/50 text-sm">Total Poin</p>
-          <H3 className="text-primary text-right">{siswa.points}</H3>
+          <H3 className="text-primary md:text-right">{siswa.points}</H3>
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-row justify-between items-end">
-          <H3 className="text-primary">Pelanggaran</H3>
-          <Button>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end">
+          <H3 className="text-primary md:mb-0 mb-2">Pelanggaran</H3>
+          <Button className="md:w-max w-full">
             <PlusIcon className="mr-2" />
             Tambah Pelanggaran
           </Button>
