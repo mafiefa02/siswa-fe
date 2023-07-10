@@ -1,21 +1,21 @@
-import { getBaseUrl } from "@/lib/getBaseUrl";
+import { prisma } from "@/prisma";
 
 import SearchBar from "./(components)/search-bar";
 
 import type { Pelanggaran, Siswa } from "@prisma/client";
 async function getSiswa(): Promise<Siswa[]> {
-  return await fetch(`${getBaseUrl()}/api/siswa`, {
-    cache: "no-cache",
-  }).then((res) => res.json());
+  const siswa = await prisma.siswa.findMany();
+  return siswa;
 }
 
 async function getPelanggaranSiswa() {
-  const res: Pelanggaran[] = await fetch(`${getBaseUrl()}/api/pelanggaran/`, {
-    method: "GET",
-    cache: "no-cache",
-  }).then((res) => res.json());
+  const pelanggaran = await prisma.pelanggaran.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
-  return res;
+  return pelanggaran;
 }
 
 export default async function Home() {

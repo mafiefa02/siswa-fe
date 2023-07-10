@@ -1,4 +1,3 @@
-import { PlusIcon } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import React from "react";
@@ -6,19 +5,16 @@ import React from "react";
 import details from "@/../public/details.jpg";
 import Container from "@/components/layout/container";
 import { H1, H3, P } from "@/components/typography";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getBaseUrl } from "@/lib/getBaseUrl";
 import { prisma } from "@/prisma";
-import { Pelanggaran, Siswa } from "@prisma/client";
+import { Siswa } from "@prisma/client";
 
 export async function generateStaticParams() {
   const students: Siswa[] = await prisma.siswa.findMany();
@@ -33,29 +29,25 @@ export default async function SiswaDetails({
 }: {
   params: { siswaId: string };
 }) {
-  const siswa: Siswa = await fetch(
-    `${getBaseUrl()}/api/siswa/${params.siswaId}`,
-    {
-      method: "GET",
-      cache: "no-cache",
-    }
-  ).then((res) => res.json());
+  const siswa = await prisma.siswa.findUnique({
+    where: {
+      id: params.siswaId,
+    },
+  });
 
-  const pelanggaran: Pelanggaran[] = await fetch(
-    `${getBaseUrl()}/api/pelanggaran/${params.siswaId}`,
-    {
-      method: "GET",
-      cache: "no-cache",
-    }
-  ).then((res) => res.json());
+  const pelanggaran = await prisma.pelanggaran.findMany({
+    where: {
+      siswaId: params.siswaId,
+    },
+  });
 
   return (
     <>
       <div className="absolute w-full h-full bg-gradient-to-t from-primary/30 dark:from-background to-transparent -z-50" />
       <Container className="py-12">
         <div className="flex flex-col">
-          <H1 className="-mb-5 max-w-md">{siswa.name}</H1>
-          <P>NISN {siswa.nisn}</P>
+          <H1 className="-mb-5 max-w-md">{siswa?.name}</H1>
+          <P>NISN {siswa?.nisn}</P>
         </div>
         <div className="flex flex-col gap-4 mt-6">
           <H3 className="text-primary">Pelanggaran Siswa</H3>
@@ -98,7 +90,7 @@ export default async function SiswaDetails({
                     <P>Total Poin</P>
                   </TableCell>
                   <TableCell className="text-destructive">
-                    {siswa.points}
+                    {siswa?.points}
                   </TableCell>
                 </TableRow>
               </TableBody>

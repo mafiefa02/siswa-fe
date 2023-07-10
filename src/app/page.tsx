@@ -1,21 +1,17 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import hero from "@/../public/hero.png";
 import Container from "@/components/layout/container";
 import { H1, H3 } from "@/components/typography";
-import { getBaseUrl } from "@/lib/getBaseUrl";
+import { prisma } from "@/prisma";
 import { Siswa } from "@prisma/client";
 
 import Search from "./(components)/search";
 
 async function getSiswa(): Promise<Siswa[]> {
-  const res = await fetch(`${getBaseUrl()}/api/siswa`, {
-    method: "GET",
-    next: { revalidate: 60 * 60 }, // 1 hour
-  });
-  const data = await res.json();
-  return data;
+  const siswa = await prisma.siswa.findMany();
+  return siswa;
 }
 
 async function getAnalytics(): Promise<{
@@ -23,14 +19,22 @@ async function getAnalytics(): Promise<{
   pelanggaranCount: number;
   pelanggaranToday: number;
 }> {
-  const res = await fetch(`${getBaseUrl()}/api/analytics`, {
-    method: "GET",
-    next: {
-      revalidate: 60 * 15, // 10 minutes
+  const siswaCount = await prisma.siswa.count();
+  const pelanggaranCount = await prisma.pelanggaran.count();
+
+  const pelanggaranToday = await prisma.pelanggaran.count({
+    where: {
+      createdAt: {
+        gte: new Date(new Date().setHours(0, 0, 0, 0)),
+        lt: new Date(new Date().setHours(23, 59, 59, 999)),
+      },
     },
   });
-  const data = await res.json();
-  return data;
+  return {
+    siswaCount: siswaCount,
+    pelanggaranCount: pelanggaranCount,
+    pelanggaranToday: pelanggaranToday,
+  };
 }
 
 export default async function Home() {
